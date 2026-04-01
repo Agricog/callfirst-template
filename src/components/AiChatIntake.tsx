@@ -13,6 +13,7 @@ interface Message {
 }
 
 const API_URL = import.meta.env.VITE_API_URL || ''
+const API_KEY = import.meta.env.VITE_API_KEY || ''
 const CLIENT_ID = import.meta.env.VITE_CLIENT_ID || ''
 
 export default function AiChatIntake(): JSX.Element {
@@ -60,6 +61,7 @@ export default function AiChatIntake(): JSX.Element {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'x-api-key': API_KEY,
           },
           body: JSON.stringify({
             clientId: CLIENT_ID,
