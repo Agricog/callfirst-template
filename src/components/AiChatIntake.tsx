@@ -32,52 +32,13 @@ export default function AiChatIntake(): JSX.Element {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
   }, [messages])
 
- // Show greeting on mount
+  // Show greeting on mount — no API call needed
   useEffect(() => {
     setMessages([{
       role: 'assistant',
       content: 'Hi! I\'m the ' + CLIENT.businessName + ' assistant. What roofing work do you need help with?'
     }])
   }, [])
-
-  const startConversation = async () => {
-    setIsLoading(true)
-    setError('')
-    try {
-      const res = await fetch(API_URL + '/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + API_KEY,
-        },
-        body: JSON.stringify({
-          clientId: CLIENT_ID,
-          messages: [],
-          userMessage: '__START__',
-        }),
-      })
-
-      if (!res.ok) throw new Error('Connection failed')
-
-      const data = await res.json()
-      const assistantMessage = data.response || data.message || ''
-
-      if (assistantMessage) {
-        setMessages([{ role: 'assistant', content: assistantMessage }])
-      }
-    } catch {
-      setMessages([
-        {
-          role: 'assistant',
-          content: CLIENT.services[0]
-            ? 'Hi! I\'m the ' + CLIENT.businessName + ' assistant. What roofing work do you need help with?'
-            : 'Hi! How can I help you today?',
-        },
-      ])
-    } finally {
-      setIsLoading(false)
-    }
-  }
 
   const sendMessage = useCallback(async () => {
     const trimmed = input.trim()
@@ -144,10 +105,10 @@ export default function AiChatIntake(): JSX.Element {
                 conversationLog: [...updatedMessages, { role: 'assistant', content: assistantContent }],
               }),
             }).catch(() => {
-              // Lead submission failed silently - don't break the UX
+              // Lead submission failed silently
             })
           } catch {
-            // JSON parse failed - still show the message
+            // JSON parse failed
           }
         }
 
