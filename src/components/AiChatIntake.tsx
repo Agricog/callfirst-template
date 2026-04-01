@@ -32,9 +32,12 @@ export default function AiChatIntake(): JSX.Element {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
   }, [messages])
 
-  // Start conversation on mount
+ // Show greeting on mount
   useEffect(() => {
-    startConversation()
+    setMessages([{
+      role: 'assistant',
+      content: 'Hi! I\'m the ' + CLIENT.businessName + ' assistant. What roofing work do you need help with?'
+    }])
   }, [])
 
   const startConversation = async () => {
