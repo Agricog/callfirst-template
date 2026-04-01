@@ -79,7 +79,7 @@ export default function HomePage(): JSX.Element {
                   className="btn-primary !py-3.5 !px-7"
                   onClick={() => {
                     trackCta('get_quote', 'hero')
-                    document.querySelector('.ai-chat-container')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                   window.scrollTo({ top: 0, behavior: 'smooth' })
                   }}
                 >
                   Get a Free Quote
