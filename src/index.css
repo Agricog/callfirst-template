@@ -1,0 +1,343 @@
+/* ============================================================
+   CallFirst Client Template — Global Styles
+   Premium, conversion-focused design system
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Design Tokens ─────────────────────────────── */
+:root {
+  --color-brand: #d97706;
+  --color-brand-light: #fbbf24;
+  --color-brand-dark: #b45309;
+  --color-brand-50: #fffbeb;
+  --color-brand-100: #fef3c7;
+
+  --color-slate-950: #0c0f1a;
+  --color-slate-900: #0f1729;
+  --color-slate-800: #1a2332;
+  --color-slate-700: #2d3748;
+  --color-slate-600: #475569;
+  --color-slate-500: #64748b;
+  --color-slate-400: #94a3b8;
+  --color-slate-300: #cbd5e1;
+  --color-slate-200: #e2e8f0;
+  --color-slate-100: #f1f5f9;
+  --color-slate-50: #f8fafc;
+
+  --color-success: #16a34a;
+  --color-danger: #dc2626;
+
+  --font-heading: 'DM Serif Display', Georgia, serif;
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.16);
+}
+
+/* ── Base ───────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-slate-700);
+  background: var(--color-slate-50);
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+/* ── Typography ────────────────────────────────── */
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+/* ── Skip Navigation ───────────────────────────── */
+.skip-nav {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  z-index: 100;
+  background: var(--color-brand);
+  color: white;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.2s;
+}
+
+.skip-nav:focus {
+  top: 16px;
+}
+
+/* ── Buttons ───────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+  background: var(--color-brand);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.3);
+}
+
+.btn-primary:hover {
+  background: var(--color-brand-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(217, 119, 6, 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-slate-700);
+  background: white;
+  border: 1.5px solid var(--color-slate-200);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  border-color: var(--color-brand);
+  color: var(--color-brand);
+  background: var(--color-brand-50);
+}
+
+.btn-phone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+  background: var(--color-slate-900);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn-phone:hover {
+  background: var(--color-slate-800);
+}
+
+/* ── Cards ─────────────────────────────────────── */
+.card {
+  background: white;
+  border: 1px solid var(--color-slate-100);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.25s ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-slate-200);
+}
+
+.card-brand {
+  background: white;
+  border: 1.5px solid rgba(217, 119, 6, 0.15);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 16px rgba(217, 119, 6, 0.06);
+}
+
+/* ── Glass Effect ──────────────────────────────── */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+/* ── Section Styles ────────────────────────────── */
+.section-dark {
+  background: var(--color-slate-900);
+  color: white;
+}
+
+.section-warm {
+  background: var(--color-brand-50);
+}
+
+/* ── Animations ────────────────────────────────── */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-reveal {
+  animation: reveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+/* Stagger delays for children */
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.1s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.2s; }
+.stagger-5 { animation-delay: 0.25s; }
+.stagger-6 { animation-delay: 0.3s; }
+
+/* ── Emergency Banner ──────────────────────────── */
+.emergency-banner {
+  background: linear-gradient(90deg, var(--color-danger), #b91c1c);
+  color: white;
+  padding: 10px 16px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.emergency-banner a {
+  color: white;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ── Star Rating ───────────────────────────────── */
+.stars {
+  display: inline-flex;
+  gap: 2px;
+  color: var(--color-brand);
+}
+
+/* ── Responsive Utilities ──────────────────────── */
+@media (max-width: 640px) {
+  .btn-primary,
+  .btn-secondary,
+  .btn-phone {
+    width: 100%;
+    padding: 16px 24px;
+    font-size: 16px;
+  }
+}
+
+/* ── Focus States (Accessibility) ──────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+/* ── Selection ─────────────────────────────────── */
+::selection {
+  background: var(--color-brand-100);
+  color: var(--color-slate-900);
+}
+
+/* ── Scrollbar ─────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-slate-100);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-slate-300);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-slate-400);
+}
