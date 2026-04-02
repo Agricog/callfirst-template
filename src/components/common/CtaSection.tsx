@@ -2,9 +2,9 @@
 // CallFirst Client Template — CTA Section
 // Bottom call-to-action with phone and quote button
 // ============================================================
-
+import { useCallback } from 'react'
 import { Phone, ChevronRight } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { CLIENT } from '@/data/clientConfig'
 import { trackCta, trackPhoneCall } from '@/utils/analytics'
 
@@ -18,6 +18,26 @@ export default function CtaSection({
   subheading = 'Get your free quote in under 30 seconds. ' + CLIENT.ownerName + ' will call you back the same day.',
 }: CtaSectionProps): JSX.Element {
   const phoneClean = CLIENT.phone.replace(/\s/g, '')
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  const scrollToChat = useCallback(() => {
+    trackCta('get_quote', 'bottom_cta')
+    if (location.pathname !== '/') {
+      navigate('/')
+      setTimeout(() => {
+        document.querySelector('.ai-chat-container')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        setTimeout(() => {
+          document.querySelector<HTMLInputElement>('.ai-chat-container input')?.focus()
+        }, 500)
+      }, 300)
+    } else {
+      document.querySelector('.ai-chat-container')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      setTimeout(() => {
+        document.querySelector<HTMLInputElement>('.ai-chat-container input')?.focus()
+      }, 500)
+    }
+  }, [location.pathname, navigate])
 
   return (
     <section
@@ -33,16 +53,14 @@ export default function CtaSection({
         <p className="text-slate-400 text-base mb-10 max-w-md mx-auto leading-relaxed">
           {subheading}
         </p>
-
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link
-            to="/#quote"
+          <button
             className="btn-primary !py-4 !px-8 !text-base"
-            onClick={() => trackCta('get_quote', 'bottom_cta')}
+            onClick={scrollToChat}
           >
             Get a Free Quote
             <ChevronRight size={18} />
-          </Link>
+          </button>
           <a
             href={'tel:' + phoneClean}
             className="btn-phone !py-4 !px-8 !text-base"
@@ -52,7 +70,6 @@ export default function CtaSection({
             {CLIENT.phone}
           </a>
         </div>
-
         <p className="text-slate-500 text-xs mt-6">
           {'No obligation. No call-out fee for quotes. ' + CLIENT.insuranceAmount + ' public liability insured.'}
         </p>
