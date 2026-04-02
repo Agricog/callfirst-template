@@ -21,7 +21,7 @@ export default function AiChatIntake(): JSX.Element {
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const chatBodyRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
   // Show greeting on mount — no API call needed
@@ -35,10 +35,12 @@ export default function AiChatIntake(): JSX.Element {
     ])
   }, [])
 
-  // Auto-scroll to latest message
+  // Auto-scroll INSIDE the chat box only — not the whole page
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
+    if (chatBodyRef.current) {
+      chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight
+    }
+  }, [messages, isLoading])
 
   const sendMessage = useCallback(
     async (userText: string) => {
@@ -136,7 +138,7 @@ export default function AiChatIntake(): JSX.Element {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-3 min-h-[260px] max-h-[360px] bg-slate-50">
+      <div ref={chatBodyRef} className="flex-1 overflow-y-auto p-4 space-y-3 min-h-[260px] max-h-[360px] bg-slate-50">
         {messages.map((msg, i) => (
           <div
             key={i}
@@ -175,8 +177,6 @@ export default function AiChatIntake(): JSX.Element {
         {error && (
           <div className="text-center text-xs text-red-500 py-1">{error}</div>
         )}
-
-        <div ref={messagesEndRef} />
       </div>
 
       {/* Input */}
