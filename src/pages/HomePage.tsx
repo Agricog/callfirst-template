@@ -79,7 +79,7 @@ export default function HomePage(): JSX.Element {
                   className="btn-primary !py-3.5 !px-7"
                   onClick={() => {
                     trackCta('get_quote', 'hero')
-                   window.scrollTo({ top: 0, behavior: 'smooth' })
+                   document.querySelector('.ai-chat-container')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => { document.querySelector<HTMLInputElement>('.ai-chat-container input')?.focus() }, 500)
                   }}
                 >
                   Get a Free Quote
@@ -260,7 +260,7 @@ export default function HomePage(): JSX.Element {
                 style={{ color: 'var(--color-brand-dark)' }}
                 onClick={() => {
                   trackCta('discount_cta', 'pricing')
-                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                  document.querySelector('.ai-chat-container')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => { document.querySelector<HTMLInputElement>('.ai-chat-container input')?.focus() }, 500)
                 }}
               >
                 get your free quote now
