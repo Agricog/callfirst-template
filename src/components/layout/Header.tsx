@@ -3,8 +3,8 @@
 // Sticky, conversion-focused, mobile-first
 // ============================================================
 
-import { useState, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useState, useEffect, useCallback } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Phone, Menu, X, AlertTriangle } from 'lucide-react'
 import { CLIENT } from '@/data/clientConfig'
 import { trackPhoneCall } from '@/utils/analytics'
@@ -20,6 +20,7 @@ export default function Header(): JSX.Element {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -32,6 +33,24 @@ export default function Header(): JSX.Element {
   }, [location.pathname])
 
   const phoneClean = CLIENT.phone.replace(/\s/g, '')
+
+  const scrollToChat = useCallback(() => {
+    setMobileOpen(false)
+    if (location.pathname !== '/') {
+      navigate('/')
+      setTimeout(() => {
+        document.querySelector('.ai-chat-container')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        setTimeout(() => {
+          document.querySelector<HTMLInputElement>('.ai-chat-container input')?.focus()
+        }, 500)
+      }, 300)
+    } else {
+      document.querySelector('.ai-chat-container')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      setTimeout(() => {
+        document.querySelector<HTMLInputElement>('.ai-chat-container input')?.focus()
+      }, 500)
+    }
+  }, [location.pathname, navigate])
 
   return (
     <>
@@ -103,12 +122,12 @@ export default function Header(): JSX.Element {
               <Phone size={15} />
               {CLIENT.phone}
             </a>
-            <Link
-              to="/#quote"
+            <button
               className="btn-primary !py-2.5 !px-5 !text-[13px]"
+              onClick={scrollToChat}
             >
               Get a Free Quote
-            </Link>
+            </button>
           </div>
 
           {/* Mobile: Phone + Menu */}
@@ -160,12 +179,12 @@ export default function Header(): JSX.Element {
                 </Link>
               ))}
               <div className="mt-3 pt-3 border-t border-white/10">
-                <Link
-                  to="/#quote"
+                <button
                   className="btn-primary w-full !text-[15px]"
+                  onClick={scrollToChat}
                 >
                   Get a Free Quote
-                </Link>
+                </button>
               </div>
             </div>
           </nav>
