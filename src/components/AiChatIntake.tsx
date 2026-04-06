@@ -23,6 +23,7 @@ export default function AiChatIntake(): JSX.Element {
   const [error, setError] = useState<string | null>(null)
   const chatBodyRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const leadSubmittedRef = useRef(false)
 
   // Show greeting on mount — no API call needed
   useEffect(() => {
@@ -41,6 +42,44 @@ export default function AiChatIntake(): JSX.Element {
       chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight
     }
   }, [messages, isLoading])
+
+  // Submit lead data to the API
+  const submitLead = useCallback(
+    async (leadData: Record<string, string>, conversationLog: Message[]) => {
+      if (leadSubmittedRef.current) return
+      leadSubmittedRef.current = true
+
+      try {
+        const res = await fetch(`${API_URL}/api/lead`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${API_KEY}`,
+          },
+          body: JSON.stringify({
+            clientId: CLIENT_ID,
+            lead: leadData,
+            conversationLog: conversationLog.map((m) => ({
+              role: m.role,
+              content: m.content,
+              timestamp: m.timestamp,
+            })),
+          }),
+        })
+
+        if (!res.ok) {
+          console.error('Lead submission failed:', res.status)
+          leadSubmittedRef.current = false
+        } else {
+          console.log('Lead submitted successfully')
+        }
+      } catch (err) {
+        console.error('Lead submission error:', err)
+        leadSubmittedRef.current = false
+      }
+    },
+    []
+  )
 
   const sendMessage = useCallback(
     async (userText: string) => {
@@ -91,7 +130,13 @@ export default function AiChatIntake(): JSX.Element {
           timestamp: new Date().toISOString(),
         }
 
-        setMessages((prev) => [...prev, assistantMessage])
+        const allMessages = [...updatedMessages, assistantMessage]
+        setMessages(allMessages)
+
+        // If the API returned lead data, submit it
+        if (data.leadData) {
+          submitLead(data.leadData, allMessages)
+        }
       } catch (err) {
         console.error('Chat error:', err)
         setError(
@@ -102,7 +147,7 @@ export default function AiChatIntake(): JSX.Element {
         inputRef.current?.focus()
       }
     },
-    [messages, isLoading]
+    [messages, isLoading, submitLead]
   )
 
   const handleSubmit = (e: React.FormEvent) => {
